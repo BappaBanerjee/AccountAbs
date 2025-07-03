@@ -96,7 +96,7 @@ contract MinimalAcc is IAccount, Ownable {
     // - The prefund amount is paid to the sender (the account owner) if there are missing funds.
     // - The gas limit is set to the maximum value to ensure the transfer succeeds.
     // - The function can only be called by the EntryPoint contract or the account owner.
-    // - The function is used to validate the user operation and ensure that the account has enough 
+    // - The function is used to validate the user operation and ensure that the account has enough
     function validateUserOp(PackedUserOperation calldata userOp, bytes32 userOpHash, uint256 missingAccountFunds)
         external
         requireFromEntryPoint
@@ -118,7 +118,7 @@ contract MinimalAcc is IAccount, Ownable {
      */
     // This function checks the signature of the user operation against the owner's address.
     // If the signature is valid, it returns SIG_VALIDATION_SUCCESS.
-    // If the signature is invalid, it returns SIG_VALIDATION_FAILED.   
+    // If the signature is invalid, it returns SIG_VALIDATION_FAILED.
     function _validateSignature(PackedUserOperation calldata userOp, bytes32 userOpHash)
         internal
         view
@@ -144,7 +144,8 @@ contract MinimalAcc is IAccount, Ownable {
     // It is used to ensure that the account has enough funds to cover the prefund amount.
     // If the account does not have enough funds, it sends the missing amount back to the
     // sender (the account owner) to ensure that the account can continue to operate.
-    // This is a security measure to prevent the account from being stuck due to insufficient funds.    
+    // This is a security measure to prevent the account from being stuck due to insufficient funds.
+
     function _payPrefund(uint256 missingAccountFunds) internal {
         if (missingAccountFunds != 0) {
             (bool success,) = payable(msg.sender).call{value: missingAccountFunds, gas: type(uint256).max}("");
